@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>MOOMIRYU — Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 폰트: whois-mono.ttf 파일이 index.html과 같은 위치에 있다고 가정 -->
+  <style>
+    @font-face {
+      font-family: "WhoisMono";
+      src: url("whois-mono.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /* RESET */
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center, dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend, table, caption,
+    tbody, tfoot, thead, tr, th, td, article, aside,
+    canvas, details, embed, figure, figcaption,
+    footer, header, hgroup, menu, nav, output,
+    ruby, section, summary, time, mark, audio,
+    video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+
+    html {
+      font-family: "WhoisMono", monospace;
+      color: #ffffff;
+      font-size: 9.375vw; /* 화면 너비 기준 큰 타입 */
+    }
+
+    body {
+      background-color: #000000;
+      padding: 0.2rem;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* 타입 스케일 */
+    .type-hero {
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .type-menu {
+      font-size: 0.38rem;
+    }
+
+    .type-section {
+      font-size: 0.4rem;
+    }
+
+    .type-project-title {
+      font-size: 0.5rem;
+    }
+
+    .type-body-md {
+      font-size: 0.18rem;
+      line-height: 1.1;
+    }
+
+    .type-body-sm {
+      font-size: 0.14rem;
+      opacity: 0.85;
+      line-height: 1.15;
+    }
+
+    .mt-sm { margin-top: 0.15rem; }
+    .mt-md { margin-top: 0.35rem; }
+    .mt-lg { margin-top: 0.6rem; }
+
+    .flex {
+      display: flex;
+    }
+
+    .space-between {
+      justify-content: space-between;
+    }
+
+    .column {
+      flex-direction: column;
+    }
+
+    /* HERO 영역 */
+    .hero-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-top {
+      margin-top: 0.1rem;
+    }
+
+    .hero-divider {
+      border-top: 1px solid #555;
+      margin: 0.25rem 0;
+    }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 0.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-cta {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-cta::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.05rem;
+      width: 0;
+      height: 1px;
+      background: #ff6a1a;
+      transition: width 0.2s ease-out;
+    }
+
+    .hero-cta:hover::after {
+      width: 100%;
+    }
+
+    /* 섹션 공통 */
+    section {
+      padding-top: 0.4rem;
+      padding-bottom: 0.6rem;
+      border-top: 1px solid #333;
+      margin-top: 0.4rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.2rem;
+    }
+
+    .section-title {
+      font-size: 0.4rem;
+    }
+
+    .section-link {
+      font-size: 0.18rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .section-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.04rem;
+      width: 0;
+      height: 1px;
+      background: #ff6a1a;
+      transition: width 0.2s ease-out;
+    }
+
+    .section-link:hover::after {
+      width: 100%;
+    }
+
+    /* 연도 그리드 */
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+    }
+
+    .year-cell {
+      padding: 0.15rem 0;
+      font-size: 0.36rem;
+      text-align: center;
+      cursor: pointer;
+      transition: color 0.15s ease-out, background 0.15s ease-out;
+    }
+
+    .year-cell:hover,
+    .year-cell.active {
+      color: #ff6a1a;
+    }
+
+    /* 프로젝트 리스트 */
+    .project-list {
+      margin-top: 0.35rem;
+    }
+
+    .project-item {
+      font-size: 0.5rem;
+      cursor: pointer;
+      margin: 0.18rem 0;
+      letter-spacing: -0.015em;
+      transition: color 0.15s ease-out;
+    }
+
+    .project-item:hover,
+    .project-item.active {
+      color: #ff6a1a;
+    }
+
+    /* 디테일 */
+    .detail-wrapper {
+      margin-top: 0.4rem;
+      padding-top: 0.3rem;
+      border-top: 1px solid #333;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .detail-wrapper.visible {
+      display: flex;
+    }
+
+    .detail-title {
+      font-size: 0.42rem;
+      margin-bottom: 0.12rem;
+    }
+
+    .detail-meta {
+      font-size: 0.16rem;
+      opacity: 0.7;
+      margin-bottom: 0.18rem;
+    }
+
+    .detail-desc {
+      font-size: 0.14rem;
+      opacity: 0.9;
+      max-width: 80vw;
+      margin-bottom: 0.25rem;
+    }
+
+    .detail-image-frame {
+      max-width: 85vw;
+      max-height: 70vh;
+    }
+
+    .detail-image-frame img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+
+    .detail-note {
+      margin-top: 0.1rem;
+      font-size: 0.12rem;
+      color: #888;
+      max-width: 80vw;
+      text-align: right;
+    }
+
+    /* Archive */
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+    }
+
+    .archive-cell {
+      padding: 0.18rem 0.06rem;
+      font-size: 0.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: color 0.15s ease-out, background 0.15s ease-out;
+    }
+
+    .archive-cell:hover,
+    .archive-cell.active {
+      color: #ff6a1a;
+    }
+
+    .archive-list {
+      margin-top: 0.35rem;
+    }
+
+    .archive-item {
+      font-size: 0.48rem;
+      margin: 0.18rem 0;
+      cursor: pointer;
+    }
+
+    .archive-item:hover,
+    .archive-item.active {
+      color: #ff6a1a;
+    }
+
+    /* About / Contact */
+    .text-block {
+      max-width: 80vw;
+    }
+
+    @media (max-width: 840px) {
+      .year-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .archive-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HERO / HOME -->
+  <header class="hero-wrapper" id="home">
+    <div class="hero-top">
+      <div class="type-hero">MOOMIRYU</div>
+      <div class="hero-divider"></div>
+      <div class="type-body-md">
+        typography based visual design
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="column">
+        <span class="type-menu hero-cta" data-nav="works">Works</span>
+      </div>
+      <div class="column" style="align-items: flex-end;">
+        <span class="type-menu hero-cta" data-nav="about">About</span>
+        <span class="type-menu hero-cta mt-sm" data-nav="contact">Contact</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="section-header">
+      <div class="section-title type-section">Works</div>
+      <div class="section-link" data-nav="about">About</div>
+    </div>
+
+    <!-- 연도 토글 -->
+    <div class="year-grid" id="yearGrid">
+      <!-- JS에서 채움 -->
+    </div>
+
+    <!-- 프로젝트 타이틀 리스트 -->
+    <div class="project-list" id="projectList"></div>
+
+    <!-- 프로젝트 디테일 -->
+    <div class="detail-wrapper" id="workDetail"></div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section id="archive">
+    <div class="section-header">
+      <div class="section-title type-section">Archive</div>
+      <div class="section-link" data-nav="about">About</div>
+    </div>
+
+    <!-- 카테고리 -->
+    <div class="archive-grid" id="archiveGrid">
+      <!-- JS에서 채움 -->
+    </div>
+
+    <!-- 항목 리스트 -->
+    <div class="archive-list" id="archiveList"></div>
+
+    <!-- 디테일 -->
+    <div class="detail-wrapper" id="archiveDetail"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <div class="section-title type-section">About</div>
+      <div class="section-link" data-nav="contact">Contact</div>
+    </div>
+    <div class="text-block type-body-sm">
+      <p>
+        MOOMIRYU는 타이포그래피를 기초로 작업하는 시각디자이너입니다.
+        글자의 구조, 리듬, 간격을 중심으로 포스터 · 에디토리얼 · 아이덴티티
+        작업을 진행합니다.
+      </p>
+      <p>
+        이 사이트는 개인 작업과 연구들을 아카이브하기 위한 공간이며,
+        새로운 프로젝트와 실험은 주기적으로 업데이트됩니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <div class="section-title type-section">Contact</div>
+    </div>
+    <div class="text-block type-body-sm">
+      <p>
+        프로젝트 제안 시, 아래 정보를 함께 보내주시면 더 빠르게 응답드릴 수 있습니다.
+      </p>
+      <p>
+        · 프로젝트 개요 / 목적<br>
+        · 예상 일정<br>
+        · 대략적인 예산 범위
+      </p>
+      <p class="mt-md">
+        Email — <a href="mailto:hello@moomiryu.com">hello@moomiryu.com</a><br>
+        Instagram — <a href="https://instagram.com/" target="_blank">@your_handle</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- INTERACTION SCRIPT -->
+  <script>
+    // 데이터 정의 (나중에 실제 작업으로 교체하면 됨)
+    const worksData = {
+      2024: [
+        {
+          id: "dear-tomorrow",
+          title: "Dear Tomorrow",
+          role: "Poster",
+          description:
+            "Cyanotype 질감을 활용한 포스터 시리즈. 먼 기억과 계절감을 동시에 다룹니다.",
+          image: "https://picsum.photos/800/1200?random=1"
+        },
+        {
+          id: "typozimmer",
+          title: "Typozimmer Nr.10",
+          role: "Typography / System",
+          description:
+            "좁은 마진과 밀도 높은 그리드를 활용한 타이포그래피 룸 스터디.",
+          image: "https://picsum.photos/800/1100?random=2"
+        }
+      ],
+      2023: [
+        {
+          id: "endless-days",
+          title: "My Endless Numbered Days",
+          role: "Editorial",
+          description:
+            "노래 구조를 모티브로 한 에디토리얼 레이아웃. 파편화된 사진과 텍스트의 조합.",
+          image: "https://picsum.photos/800/1180?random=3"
+        }
+      ],
+      2022: [
+        {
+          id: "poster-systems",
+          title: "Systems of Poster Series",
+          role: "System / Poster",
+          description:
+            "단일 베이스라인 그리드로부터 파생된 포스터 시스템 실험.",
+          image: "https://picsum.photos/800/1150?random=4"
+        }
+      ]
+    };
+
+    const archiveData = {
+      "Typography Research": [
+        {
+          id: "serif-contrast",
+          title: "Serif Contrast Study",
+          note: "소 사이즈 본문에서의 세리프 굵기 대비 실험.",
+          image: "https://picsum.photos/800/900?random=5"
+        }
+      ],
+      Font: [
+        {
+          id: "mono-grid",
+          title: "Monospace Grid Trial",
+          note: "4×8 그리드 기반 모노스페이스 디스플레이 타이프 초안.",
+          image: "https://picsum.photos/800/900?random=6"
+        }
+      ],
+      Lettering: [
+        {
+          id: "spring-script",
+          title: "Spring Lettering Study",
+          note: "봄 시즌 포스터를 위한 루즈한 브러시 레터링 실험.",
+          image: "https://picsum.photos/800/900?random=7"
+        }
+      ],
+      Editorial: [
+        {
+          id: "vertical-rhythm",
+          title: "Vertical Rhythm Test",
+          note: "다국어 조합에서 베이스라인 리듬과 행간 조절 테스트.",
+          image: "https://picsum.photos/800/900?random=8"
+        }
+      ]
+    };
+
+    // 스크롤 네비게이션
+    document.querySelectorAll("[data-nav]").forEach((el) => {
+      el.addEventListener("click", () => {
+        const targetId = el.dataset.nav;
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        window.scrollTo({
+          top: target.offsetTop,
+          behavior: "smooth"
+        });
+      });
+    });
+
+    // WORKS: 연도 / 프로젝트 / 디테일 렌더링
+    const yearGrid = document.getElementById("yearGrid");
+    const projectList = document.getElementById("projectList");
+    const workDetail = document.getElementById("workDetail");
+
+    let currentYear = null;
+    let currentProjectId = null;
+
+    function renderYears() {
+      const years = Object.keys(worksData)
+        .map(Number)
+        .sort((a, b) => b - a);
+      yearGrid.innerHTML = "";
+      years.forEach((year) => {
+        const cell = document.createElement("div");
+        cell.className = "year-cell";
+        cell.textContent = String(year).slice(2);
+        cell.dataset.year = year;
+        cell.addEventListener("click", () => selectYear(year));
+        yearGrid.appendChild(cell);
+      });
+    }
+
+    function selectYear(year) {
+      currentYear = year;
+      currentProjectId = null;
+
+      [...yearGrid.children].forEach((el) => {
+        el.classList.toggle("active", Number(el.dataset.year) === year);
+      });
+
+      const list = worksData[year] || [];
+      projectList.innerHTML = "";
+      workDetail.classList.remove("visible");
+      workDetail.innerHTML = "";
+
+      list.forEach((p) => {
+        const item = document.createElement("div");
+        item.className = "project-item";
+        item.textContent = p.title;
+        item.dataset.id = p.id;
+        item.addEventListener("click", () => selectProject(year, p.id));
+        projectList.appendChild(item);
+      });
+
+      window.scrollTo({
+        top: projectList.parentElement.offsetTop - 40,
+        behavior: "smooth"
+      });
+    }
+
+    function selectProject(year, projectId) {
+      currentProjectId = projectId;
+      const list = worksData[year] || [];
+      const project = list.find((p) => p.id === projectId);
+      if (!project) return;
+
+      [...projectList.children].forEach((el) => {
+        el.classList.toggle("active", el.dataset.id === projectId);
+      });
+
+      workDetail.classList.add("visible");
+      workDetail.innerHTML = `
+        <div class="detail-title">${project.title}</div>
+        <div class="detail-meta">${year} · ${project.role}</div>
+        <div class="detail-desc">${project.description}</div>
+        <div class="detail-image-frame">
+          <img src="${project.image}" alt="${project.title}" />
+        </div>
+        <div class="detail-note">
+          Replace this placeholder image with your actual project visual.
+        </div>
+      `;
+
+      window.scrollTo({
+        top: workDetail.offsetTop - 40,
+        behavior: "smooth"
+      });
+    }
+
+    // ARCHIVE: 카테고리 / 아이템 / 디테일
+    const archiveGrid = document.getElementById("archiveGrid");
+    const archiveList = document.getElementById("archiveList");
+    const archiveDetail = document.getElementById("archiveDetail");
+
+    let currentCategory = null;
+    let currentArchiveId = null;
+
+    function renderArchiveCategories() {
+      archiveGrid.innerHTML = "";
+      Object.keys(archiveData).forEach((cat) => {
+        const cell = document.createElement("div");
+        cell.className = "archive-cell";
+        cell.textContent = cat;
+        cell.dataset.category = cat;
+        cell.addEventListener("click", () => selectCategory(cat));
+        archiveGrid.appendChild(cell);
+      });
+    }
+
+    function selectCategory(category) {
+      currentCategory = category;
+      currentArchiveId = null;
+
+      [...archiveGrid.children].forEach((el) => {
+        el.classList.toggle("active", el.dataset.category === category);
+      });
+
+      const list = archiveData[category] || [];
+      archiveList.innerHTML = "";
+      archiveDetail.classList.remove("visible");
+      archiveDetail.innerHTML = "";
+
+      list.forEach((item) => {
+        const el = document.createElement("div");
+        el.className = "archive-item";
+        el.textContent = item.title;
+        el.dataset.id = item.id;
+        el.addEventListener("click", () => selectArchiveItem(category, item.id));
+        archiveList.appendChild(el);
+      });
+
+      window.scrollTo({
+        top: archiveList.parentElement.offsetTop - 40,
+        behavior: "smooth"
+      });
+    }
+
+    function selectArchiveItem(category, itemId) {
+      currentArchiveId = itemId;
+      const list = archiveData[category] || [];
+      const item = list.find((i) => i.id === itemId);
+      if (!item) return;
+
+      [...archiveList.children].forEach((el) => {
+        el.classList.toggle("active", el.dataset.id === itemId);
+      });
+
+      archiveDetail.classList.add("visible");
+      archiveDetail.innerHTML = `
+        <div class="detail-title">${item.title}</div>
+        <div class="detail-meta">${category}</div>
+        <div class="detail-desc">${item.note}</div>
+        <div class="detail-image-frame">
+          <img src="${item.image}" alt="${item.title}" />
+        </div>
+        <div class="detail-note">
+          Archive · research documentation placeholder.
+        </div>
+      `;
+
+      window.scrollTo({
+        top: archiveDetail.offsetTop - 40,
+        behavior: "smooth"
+      });
+    }
+
+    // 초기 렌더
+    renderYears();
+    renderArchiveCategories();
+  </script>
+</body>
+</html>
