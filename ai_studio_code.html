@@ -1,431 +1,178 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <title>MOOMIRYU | Typography & Visual Design</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --fg: #ffffff;
-      --accent: #ff6a1a;
-      --line: rgba(255, 255, 255, 0.15);
-      --font-main: "Inter", system-ui, -apple-system, sans-serif;
-    }
+/* =======================================
+   FONT
+======================================= */
+@font-face {
+    font-family: 'WhoisMono';
+    src: url('whois-mono.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
 
-    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+/* =======================================
+   RESET
+======================================= */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption,
+tbody, tfoot, thead, tr, th, td, article, aside,
+canvas, details, embed, figure, figcaption,
+footer, header, hgroup, menu, nav, output,
+ruby, section, summary, time, mark, audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
 
-    html { scroll-behavior: smooth; }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--font-main);
-      line-height: 1.4;
-      overflow-x: hidden;
-    }
+/* =======================================
+   BASE
+======================================= */
+html {
+    font-family: 'WhoisMono', monospace;
+    color: white;
+    font-size: 9.375vw;           /* huge responsive type */
+}
 
-    a { color: inherit; text-decoration: none; transition: 0.2s; }
-    a:hover { color: var(--accent); }
+body {
+    background-color: black;
+    padding: 0.2rem;
+    line-height: 1;               /* tighter, more Swiss */
+    -webkit-font-smoothing: antialiased;
+}
 
-    /* Layout Components */
-    main { width: 100%; }
+/* hide scrollbar */
+body::-webkit-scrollbar { display: none; }
 
-    section {
-      padding: 100px 5vw;
-      border-bottom: 1px solid var(--line);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+/* =======================================
+   TYPE SCALE
+======================================= */
+.type-xxl {   /* hero & large headings */
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+}
 
-    section.reveal {
-      opacity: 1;
-      transform: translateY(0);
-    }
+.type-xl {    /* menu, CTA */
+    font-size: 0.38rem;
+}
 
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-top: 60px;
-    }
+.type-lg {    /* project titles */
+    font-size: 0.50rem;
+    letter-spacing: -0.015em;
+}
 
-    .hero-top {
-      font-size: clamp(3rem, 12vw, 9rem);
-      font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: -0.05em;
-      text-transform: uppercase;
-    }
+.type-md {    /* medium text */
+    font-size: 0.18rem;
+    line-height: 1.1;
+}
 
-    .hero-subline {
-      margin-top: 20px;
-      font-size: clamp(1rem, 2vw, 1.4rem);
-      color: #888;
-      max-width: 600px;
-    }
+.type-sm {    /* body copy */
+    font-size: 0.14rem;
+    opacity: 0.85;
+}
 
-    .hero-random { margin: 60px 0; }
-    
-    .hero-random-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-    }
+/* =======================================
+   NAV / LINKS
+======================================= */
+a, .link {
+    text-decoration: none;
+    color: white;
+}
+.link:hover {
+    color: #ff6a1a;
+}
 
-    .hero-random-card {
-      background: var(--bg);
-      padding: 30px 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+/* =======================================
+   YEAR GRID (WORKS)
+======================================= */
+.year-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
 
-    .hero-random-card:hover { background: #151515; }
-    
-    .hero-random-year { font-size: 0.75rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
-    .hero-random-title { font-size: 1.1rem; font-weight: 600; }
+.year-cell {
+    padding: 0.15rem 0;
+    font-size: 0.36rem;
+    text-align: center;
+    cursor: pointer;
+}
+.year-cell:hover,
+.year-cell.active {
+    color: #ff6a1a;
+}
 
-    .hero-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding-bottom: 40px;
-    }
+/* =======================================
+   PROJECT LIST
+======================================= */
+.project-list {
+    margin-top: 0.4rem;
+}
 
-    .nav-btn {
-      font-size: clamp(1.5rem, 4vw, 3rem);
-      font-weight: 700;
-      cursor: pointer;
-      display: block;
-      line-height: 1.1;
-    }
+.project-item {
+    cursor: pointer;
+    margin: 0.18rem 0;
+    font-size: 0.50rem;
+}
+.project-item:hover,
+.project-item.active {
+    color: #ff6a1a;
+}
 
-    .nav-btn:hover { color: var(--accent); padding-left: 10px; transition: 0.3s; }
+/* =======================================
+   DETAIL VIEW
+======================================= */
+.detail-view {
+    margin-top: 0.4rem;
+    border-top: 1px solid #333;
+    padding-top: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    /* Section Headers */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 40px;
-    }
+.detail-title {
+    font-size: 0.42rem;
+    margin-bottom: 0.15rem;
+}
 
-    .section-title {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-    }
+.detail-meta {
+    font-size: 0.16rem;
+    opacity: 0.7;
+    margin-bottom: 0.18rem;
+}
 
-    /* Grid Labels (Years/Categories) */
-    .grid-labels {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      border: 1px solid var(--line);
-    }
+.detail-desc {
+    font-size: 0.14rem;
+    opacity: 0.85;
+    line-height: 1.15;
+    max-width: 80vw;
+}
 
-    .grid-label {
-      padding: 30px 15px;
-      border-right: 1px solid var(--line);
-      text-align: center;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+/* image */
+.detail-img-frame {
+    max-width: 85vw;
+    max-height: 70vh;
+    margin-top: 0.35rem;
+}
 
-    .grid-label:last-child { border-right: none; }
-    .grid-label.active { background: var(--fg); color: var(--bg); }
-    
-    .grid-label-main { font-size: 2rem; font-weight: 800; display: block; }
-    .grid-label-sub { font-size: 0.8rem; font-weight: 500; text-transform: uppercase; }
+.detail-img-frame img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background: #000;
+}
 
-    /* Lists */
-    .list-item {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 700;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--line);
-      cursor: pointer;
-      transition: 0.3s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .list-item:hover { color: var(--accent); padding-left: 20px; }
-    .list-item.active { color: var(--accent); }
-    .list-item::after { content: "→"; opacity: 0; transition: 0.3s; }
-    .list-item:hover::after { opacity: 1; margin-right: 20px; }
-
-    /* Detail View */
-    .detail-wrapper {
-      margin-top: 60px;
-      display: none;
-      animation: fadeIn 0.6s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .detail-wrapper.visible { display: block; }
-    
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 40px;
-    }
-
-    .detail-info { position: sticky; top: 40px; height: fit-content; }
-    .detail-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
-    .detail-meta { color: #888; margin-bottom: 20px; font-size: 0.9rem; }
-    .detail-desc { font-size: 1.1rem; line-height: 1.6; color: #ccc; }
-
-    .detail-image-container img {
-      width: 100%;
-      height: auto;
-      background: #1a1a1a;
-      display: block;
-    }
-
-    /* About & Contact */
-    .text-content {
-      font-size: clamp(1.2rem, 2vw, 1.8rem);
-      line-height: 1.5;
-      max-width: 1000px;
-      font-weight: 500;
-    }
-
-    .accent-text { color: var(--accent); }
-
-    .footer {
-      padding: 40px 5vw;
-      font-size: 0.8rem;
-      color: #555;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    @media (max-width: 850px) {
-      .hero-random-grid { grid-template-columns: 1fr; }
-      .detail-grid { grid-template-columns: 1fr; }
-      .detail-info { position: static; }
-      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
-    }
-  </style>
-</head>
-<body>
-
-  <main>
-    <!-- HOME -->
-    <section id="home" class="hero reveal">
-      <div>
-        <div class="hero-top">MOOMI<br/>RYU</div>
-        <div class="hero-subline">Typography based visual design & Structural layouts. Seoul based designer focusing on the rhythm of letters.</div>
-      </div>
-
-      <div class="hero-random">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-          <span style="font-size: 0.8rem; letter-spacing: 0.1em; color: #555;">SELECTED WORKS</span>
-          <button onclick="renderHomeRandom()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-weight:bold;">SHUFFLE</button>
-        </div>
-        <div class="hero-random-grid" id="homeRandomGrid"></div>
-      </div>
-
-      <div class="hero-bottom">
-        <div class="nav-group">
-          <span class="nav-btn" onclick="scrollToSection('works')">WORKS</span>
-          <span class="nav-btn" onclick="scrollToSection('archive')">ARCHIVE</span>
-        </div>
-        <div class="nav-group" style="text-align: right;">
-          <span class="nav-btn" onclick="scrollToSection('about')">ABOUT</span>
-          <span class="nav-btn" onclick="scrollToSection('contact')">CONTACT</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- WORKS -->
-    <section id="works">
-      <div class="section-header">
-        <div class="section-title">WORKS</div>
-        <div style="color: var(--accent); font-weight: bold;">(2022—2024)</div>
-      </div>
-      <div id="worksYearGrid" class="grid-labels"></div>
-      <div id="worksProjectList"></div>
-      
-      <div id="worksDetail" class="detail-wrapper">
-        <!-- JS Dynamic Content -->
-      </div>
-    </section>
-
-    <!-- ARCHIVE -->
-    <section id="archive">
-      <div class="section-header">
-        <div class="section-title">ARCHIVE</div>
-      </div>
-      <div id="archiveCategoryGrid" class="grid-labels"></div>
-      <div id="archiveItemList"></div>
-      <div id="archiveDetail" class="detail-wrapper"></div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="section-header">
-        <div class="section-title">ABOUT</div>
-      </div>
-      <div class="text-content">
-        MOOMIRYU is a visual designer who explores the <span class="accent-text">tension between whitespace and typography.</span> 
-        We believe that design is not about decorating, but about revealing the inherent structure of information.
-        <br/><br/>
-        Currently focusing on editorial systems, poster series, and visual identities that prioritize legibility and typographic rhythm.
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="section-header">
-        <div class="section-title">CONTACT</div>
-      </div>
-      <div class="text-content">
-        Open for collaborations and new challenges.<br/>
-        <a href="mailto:hello@moomiryu.com" class="accent-text">hello@moomiryu.com</a><br/>
-        <a href="https://instagram.com" target="_blank" style="font-size: 1.2rem; color: #888;">Instagram @moomiryu</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div>© 2024 MOOMIRYU Portfolio</div>
-    <div>Built with Passion & Typography</div>
-  </footer>
-
-  <script>
-    // Data (Keep your existing data structure)
-    const worksData = {
-      2024: [
-        { id: "w1", title: "Dear Tomorrow", desc: "Poster series exploring cyanotype textures.", role: "Concept, Print Design", img: "https://images.unsplash.com/photo-1515462277126-2dd0c162007a?auto=format&fit=crop&q=80&w=1200" },
-        { id: "w2", title: "Typozimmer Nr.10", desc: "A typographic room study focusing on dense grids.", role: "Visual Research", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1200" }
-      ],
-      2023: [
-        { id: "w3", title: "Endless Days", desc: "Editorial layout based on fragmented photographs.", role: "Editorial Design", img: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&q=80&w=1200" }
-      ],
-      2022: [
-        { id: "w4", title: "System Grid", desc: "Systematic poster collection generated from a single grid.", role: "System Design", img: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=1200" }
-      ]
-    };
-
-    const archiveData = {
-      "Research": [{ id: "a1", title: "Serif Contrast", note: "Weight contrast experiments.", img: "https://via.placeholder.com/1200x800/111/fff?text=Research" }],
-      "Font": [{ id: "a2", title: "Mono Trial", note: "Early sketches for a monospaced typeface.", img: "https://via.placeholder.com/1200x800/111/fff?text=Font+Sketch" }]
-    };
-
-    // Intersection Observer for Reveal Animation
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('reveal');
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('section').forEach(section => observer.observe(section));
-
-    // Home Random Works
-    function renderHomeRandom() {
-      const all = [];
-      Object.keys(worksData).forEach(y => worksData[y].forEach(w => all.push({...w, y})));
-      const shuffled = all.sort(() => 0.5 - Math.random()).slice(0, 3);
-      const grid = document.getElementById('homeRandomGrid');
-      grid.innerHTML = shuffled.map(item => `
-        <div class="hero-random-card" onclick="openWork('${item.y}', '${item.id}')">
-          <div class="hero-random-year">${item.y}</div>
-          <div class="hero-random-title">${item.title}</div>
-        </div>
-      `).join('');
-    }
-
-    // Scroll Logic
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Works Logic
-    function renderWorks() {
-      const yearGrid = document.getElementById('worksYearGrid');
-      const years = Object.keys(worksData).sort((a,b) => b-a);
-      yearGrid.innerHTML = years.map(y => `
-        <div class="grid-label" data-year="${y}" onclick="selectYear('${y}')">
-          <span class="grid-label-sub">YEAR</span>
-          <span class="grid-label-main">${y}</span>
-        </div>
-      `).join('');
-    }
-
-    function selectYear(year) {
-      document.querySelectorAll('#worksYearGrid .grid-label').forEach(el => {
-        el.classList.toggle('active', el.dataset.year === year);
-      });
-      const list = document.getElementById('worksProjectList');
-      list.innerHTML = worksData[year].map(p => `
-        <div class="list-item" onclick="showDetail('works', '${year}', '${p.id}')">${p.title}</div>
-      `).join('');
-      document.getElementById('worksDetail').classList.remove('visible');
-    }
-
-    function showDetail(type, group, id) {
-      const data = type === 'works' ? worksData[group].find(x => x.id === id) : archiveData[group].find(x => x.id === id);
-      const wrapper = document.getElementById(`${type}Detail`);
-      wrapper.innerHTML = `
-        <div class="detail-grid">
-          <div class="detail-info">
-            <div class="detail-title">${data.title}</div>
-            <div class="detail-meta">${group} — ${data.role || 'Study'}</div>
-            <div class="detail-desc">${data.desc || data.note}</div>
-          </div>
-          <div class="detail-image-container">
-            <img src="${data.img}" alt="${data.title}" />
-          </div>
-        </div>
-      `;
-      wrapper.classList.add('visible');
-      setTimeout(() => wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-    }
-
-    function openWork(year, id) {
-      scrollToSection('works');
-      selectYear(year);
-      setTimeout(() => showDetail('works', year, id), 400);
-    }
-
-    // Archive Logic
-    function renderArchive() {
-      const catGrid = document.getElementById('archiveCategoryGrid');
-      catGrid.innerHTML = Object.keys(archiveData).map(cat => `
-        <div class="grid-label" data-cat="${cat}" onclick="selectArchiveCat('${cat}')">
-          <span class="grid-label-sub">CATEGORY</span>
-          <span class="grid-label-main" style="font-size:1.2rem">${cat}</span>
-        </div>
-      `).join('');
-    }
-
-    function selectArchiveCat(cat) {
-      document.querySelectorAll('#archiveCategoryGrid .grid-label').forEach(el => {
-        el.classList.toggle('active', el.dataset.cat === cat);
-      });
-      const list = document.getElementById('archiveItemList');
-      list.innerHTML = archiveData[cat].map(p => `
-        <div class="list-item" onclick="showDetail('archive', '${cat}', '${p.id}')">${p.title}</div>
-      `).join('');
-    }
-
-    // Init
-    renderHomeRandom();
-    renderWorks();
-    renderArchive();
-  </script>
-</body>
-</html>
+/* =======================================
+   SMALL UTILITIES
+======================================= */
+.mt-sm { margin-top: 0.15rem; }
+.mt-md { margin-top: 0.30rem; }
+.mt-lg { margin-top: 0.55rem; }
